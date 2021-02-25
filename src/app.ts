@@ -2,6 +2,7 @@ import express, {Application, Request, Response, NextFunction} from 'express'
 import * as dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import {createConnection, Connection} from "typeorm";
+import { v4 as uuidv4 } from 'uuid';
 import bcrypt, { compare } from 'bcryptjs';
 import {User} from "./entity/ User";
 
@@ -41,7 +42,7 @@ export const startServer = async () => {
         }
 
         const userPaylaod = {
-            'userId': '647hfufhfdf488ffhhf4gddg8',
+            'userId':  uuidv4(),
             'firstName': req.body.firstName,
             'lastName': req.body.lastName,
             'email': req.body.email,
@@ -59,7 +60,7 @@ export const startServer = async () => {
 
         const getUser = async (userId: string): Promise<User> => {
 
-            const user = await User.findOne({where: {id: userId} });
+            const user = await User.findOne({where: {user_Id: userId} });
 
             return user!; 
         }
@@ -86,7 +87,7 @@ export const startServer = async () => {
 
         const updateUser = async (userId: string): Promise<User> => {
 
-            const user = await User.findOne({where: {id: userId} });
+            const user = await User.findOne({where: {user_Id: userId} });
 
             user!.firstName = req.body.firstName
             user!.lastName  = req.body.lastName
@@ -104,7 +105,7 @@ export const startServer = async () => {
 
         const deleteUser = async (userId: string): Promise<User> => {
 
-            const user = await User.findOne({where: {id: userId} });
+            const user = await User.findOne({where: {user_Id: userId} });
 
             const deletedUser = await user!.remove();
             return deletedUser
