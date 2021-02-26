@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import {createConnection, Connection} from "typeorm";
 import {apiErrorHandler} from './middlewares/ApiErrorHandler';
+import authRoutes from './routes/authRoutes'
 import userRoutes from './routes/userRoutes'
 
 const app: Application = express()
@@ -21,8 +22,11 @@ export const startServer = async () => {
     // Create connection
     const connection: Connection = await createConnection();
 
+    // auth routes
+    app.use(`/${API_VERSION}/auth`, authRoutes);
     // users routes
     app.use(`/${API_VERSION}/users`, userRoutes);
+
 
 
     // Handle the api errors
