@@ -1,16 +1,14 @@
 import {Request, Response, NextFunction} from 'express'
 import {User } from '../models/User';
 import { v4 as uuidv4 } from 'uuid';
-import {ErrorHandler} from '../errors/ErrorHandler'
+import {ApiError} from '../errors/ApiError'
 
 export class UserController {
     // Declear the properies here
     user: User;
-    errorHandler: ErrorHandler;
 
     constructor() {
         this.user = new User()
-        this.errorHandler = new ErrorHandler()
     }
   
     
@@ -20,18 +18,17 @@ export class UserController {
             const users = await this.user.getUsers()
 
             if (!users) {
-                throw new Error('No User Found!')
+                next(ApiError.notFound('No User Found!'));
+                return;
             }
+            
+            // Return users
             return users
 
         } catch(err){
-            this.errorHandler.httpError(
-                res,
-                err.message,
-                404
-            )
-            next(err)
-          }
+            next(ApiError.internalServer(err.message));
+            return
+        }
     }
 
 
@@ -41,18 +38,15 @@ export class UserController {
         try {
             const user  = await this.user.getUser(req.params.id)
             if (!user) {
-                throw new Error('User Not Found!')
+                next(ApiError.notFound('No User Found!'));
+                return;
             }
             // Return User
             return user
             
           } catch (err) {
-            this.errorHandler.httpError(
-                res,
-                err.message,
-                404
-            )
-            next(err)
+            next(ApiError.internalServer(err.message));
+            return
           }
     }
 
@@ -70,19 +64,28 @@ export class UserController {
                 password:  req.body.password
             }
 
-            if (!userPayload.email) {
-                throw new Error('Bad Request: Email Is Required!')
+            // Check if username exist
+            if (await this.user.usernameExist(userPayload.username)){
+
+                next(ApiError.conflict('The Username Already exists; Please choose another username!'));
+                return;
             }
-           
-            res.status(201)
-            return await this.user.createUser(userPayload)  
+
+            // Check if Email exist
+            if (await this.user.emailExist(userPayload.email)){
+
+                next(ApiError.conflict('Email Conflict: The Email Already exists; Please choose another email!'));
+                return;
+            
+            }
+
+            const user = await this.user.createUser(userPayload) 
+            // Return User
+            return user
+
         } catch(err){
-            this.errorHandler.httpError(
-                res,
-                err.message,
-                400
-            )
-            next(err)
+            next(ApiError.internalServer(err.message));
+            return
         }
 
     }
@@ -98,20 +101,20 @@ export class UserController {
             }
            
             if (!req.params.id) {
-                throw new Error('Bad Request: The User Id Is Required!')
+                next(ApiError.badRequest('The User Id Is Required!'));
+                return;
             }
 
-            return await this.user.updateUser(
+            const user = await this.user.updateUser(
                 req.params.id, 
                 userPayload
             )  
+            // Return User
+            return user
+
         } catch(err){
-            this.errorHandler.httpError(
-                res,
-                err.message,
-                400
-            )
-            next(err)
+            next(ApiError.internalServer(err.message));
+            return
           }
 
     }
@@ -121,17 +124,17 @@ export class UserController {
         try {
 
             if (!req.params.id) {
-                throw new Error('Bad Request: The User Id Is Required!')
+                next(ApiError.badRequest('The User Id Is Required!'));
+                return;
             }
 
-            return await this.user.deleteUser(req.params.id)
+            await this.user.deleteUser(req.params.id)
+            // return null
+            return null
+
         } catch(err){
-            this.errorHandler.httpError(
-                res,
-                err.message,
-                400
-            )
-            next(err)
+            next(ApiError.internalServer(err.message));
+            return
         }
     }
 }

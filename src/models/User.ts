@@ -81,6 +81,19 @@ export class User extends BaseEntity {
         return deletedUser
 
     }
+
+
+     // Check if username exists
+     async usernameExist(username: string) {
+        const user = await User.findOne({where: {username: username} });
+        return user ? true : false
+    }
+
+    // Check if email exists
+    async emailExist(email: string) {
+        const user = await User.findOne({where: {email: email} });
+        return user ? true : false
+    }
     
 
 }

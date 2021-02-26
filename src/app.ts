@@ -1,7 +1,8 @@
-import express, {Application, Request, Response, NextFunction} from 'express'
+import express, {Application } from 'express'
 import * as dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import {createConnection, Connection} from "typeorm";
+import {apiErrorHandler} from './middlewares/ApiErrorHandler';
 import userRoutes from './routes/userRoutes'
 
 const app: Application = express()
@@ -24,6 +25,8 @@ export const startServer = async () => {
     app.use(`/${API_VERSION}/users`, userRoutes);
 
 
+    // Handle the api errors
+    app.use(apiErrorHandler);
     app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
 }
 
