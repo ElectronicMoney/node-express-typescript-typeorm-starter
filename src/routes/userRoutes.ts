@@ -26,7 +26,7 @@ userRoutes.get('/:id', async (req: Request, res: Response, next: NextFunction) =
 })
 
 userRoutes.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
-    res.send(await userController.updateUser(req, res, next));
+    res.send(await userController.deleteUser(req, res, next));
 })
 
 export default userRoutes

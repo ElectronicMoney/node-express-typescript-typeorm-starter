@@ -74,6 +74,7 @@ export class UserController {
                 throw new Error('Bad Request: Email Is Required!')
             }
            
+            res.status(201)
             return await this.user.createUser(userPayload)  
         } catch(err){
             this.errorHandler.httpError(
@@ -116,7 +117,7 @@ export class UserController {
     }
     
     // Delete A user
-    async deleteuser(req: Request, res: Response, next: NextFunction) {
+    async deleteUser(req: Request, res: Response, next: NextFunction) {
         try {
 
             if (!req.params.id) {
