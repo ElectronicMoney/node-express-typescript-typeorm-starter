@@ -13,6 +13,7 @@ dotenv.config({ path: __dirname+'../.env' });
 
 // Applicaiton Port
 const PORT = process.env.PORT;
+const API_VERSION = process.env.API_VERSION;
 
 
 export const startServer = async () => {
@@ -20,7 +21,7 @@ export const startServer = async () => {
     const connection: Connection = await createConnection();
 
     // users routes
-    app.use('/v1/users', userRoutes);
+    app.use(`/${API_VERSION}/users`, userRoutes);
 
 
     app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
