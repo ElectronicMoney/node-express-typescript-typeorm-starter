@@ -2,6 +2,8 @@ import {Request, Response, NextFunction} from 'express'
 import {User } from '../models/User';
 import { v4 as uuidv4 } from 'uuid';
 import {ApiError} from '../errors/ApiError'
+import { auth } from '../middlewares/Auth';
+
 
 export class UserController {
     // Declear the properies here
@@ -14,6 +16,10 @@ export class UserController {
     
     // Get All Users
     async getUsers(req: Request, res: Response, next: NextFunction) {
+ 
+
+        console.log(req.auth.user)
+
         try {
             const users = await this.user.getUsers()
 

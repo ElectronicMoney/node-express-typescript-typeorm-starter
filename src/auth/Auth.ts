@@ -14,12 +14,11 @@ export class Auth {
  
     //createAccessToken 
     createAccessToken(user:User) {
-        return sign({userId: user.user_id}, this.accessToken, {expiresIn: '1d'});
-
+        return sign({user: user}, this.accessToken, {expiresIn: '1d'});
     }
 
     //createRefreshToken 
     createRefreshToken(user: User) {
-        return sign({user: user.user_id}, this.refreshToken, {expiresIn: '7d'});
+        return sign({user: user}, this.refreshToken, {expiresIn: '7d'});
     }
 }

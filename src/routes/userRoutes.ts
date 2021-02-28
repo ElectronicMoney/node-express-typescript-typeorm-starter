@@ -1,5 +1,6 @@
 import {Router, Request, Response, NextFunction} from 'express'
-import { UserController } from '../controllers/UserController'
+import { UserController } from '../controllers/UserController';
+import {auth} from '../middlewares/Auth';
 
 // Create the Instance of UserController
 const userController = new UserController()
@@ -13,7 +14,7 @@ userRoutes.post('/', async (req: Request, res: Response, next: NextFunction) => 
 });
 
 // Get All Users Route
-userRoutes.get('/', async (req: Request, res: Response, next: NextFunction) => {
+userRoutes.get('/', auth, async (req: Request, res: Response, next: NextFunction) => {
     res.send(await userController.getUsers(req, res, next))
 });
 
