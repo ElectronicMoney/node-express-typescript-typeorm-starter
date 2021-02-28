@@ -1,24 +1,30 @@
 import {User} from '../models/User';
 import {sign} from 'jsonwebtoken';
 
+
 export class Auth { 
     //field 
-    accessToken:string; 
-    refreshToken:string; 
+    accessTokenSecrete:string; 
+    refreshTokenSecrete:string; 
+    userId:string; 
   
     //constructor 
     constructor() { 
-       this.accessToken  = process.env.ACCESS_TOKEN_SECRETE!;
-       this.refreshToken = process.env.REFRESH_TOKEN_SECRETE!;
+       this.accessTokenSecrete  = process.env.ACCESS_TOKEN_SECRETE!;
+       this.refreshTokenSecrete = process.env.REFRESH_TOKEN_SECRETE!;
+       this.userId = ''
     }  
  
     //createAccessToken 
     createAccessToken(user:User) {
-        return sign({user: user}, this.accessToken, {expiresIn: '1d'});
+        this.userId = user.user_id
+        return sign({userId: this.userId}, this.accessTokenSecrete, {expiresIn: '15m'});
     }
 
     //createRefreshToken 
     createRefreshToken(user: User) {
-        return sign({user: user}, this.refreshToken, {expiresIn: '7d'});
+        this.userId = user.user_id
+        return sign({userId: this.userId}, this.refreshTokenSecrete, {expiresIn: '7d'});
     }
+    
 }

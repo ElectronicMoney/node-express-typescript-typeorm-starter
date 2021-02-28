@@ -3,6 +3,7 @@ import {ApiError} from '../errors/ApiError'
 import { User } from '../models/User'
 import { Auth } from '../auth/Auth';
 import { compare } from 'bcryptjs';
+import {verify} from 'jsonwebtoken';
 
 export class AuthController {
 
@@ -34,16 +35,11 @@ export class AuthController {
             next(ApiError.badRequest('Invalid Login Credentials; The Username or Password is Incorrect!'));
             return;
        }
- 
-       // Create Access Token from JWT
+
        const auth = new Auth()
  
        // Pass Refresh Token to httpOnly cookie
-       res.cookie(
-         'jid', 
-         auth.createRefreshToken(user),
-         {httpOnly: true}
-       );
+       res.cookie('jid', auth.createRefreshToken(user), {httpOnly: true});
  
        // Return Access Token if login is successful
        return {
@@ -51,4 +47,47 @@ export class AuthController {
        }
      
      }
+
+
+
+     // refreshToken 
+     async refreshToken(req: Request, res: Response, next: NextFunction) {
+
+
+        let authPayload: any
+
+        // secreteKey
+        const refreshTokenSecrete = process.env.REFRESH_TOKEN_SECRETE
+
+        const refreshToken = req.cookies.jid
+        // return refreshToken
+
+        verify(refreshToken, refreshTokenSecrete!, (err: any, payload: any) => {
+          // Asign the payload
+          authPayload = payload
+
+          if (err) {
+            next(ApiError.unauthorized('Unauthroized: Please login to continue!'));
+            return;
+          }
+      
+        })
+
+        // Get the user using the userId in the payload      
+        const authUser = await this.user.getUserById(authPayload.userId);
+
+        const auth = new Auth()
+
+        // Pass Refresh Token to httpOnly cookie
+        res.cookie('jid', auth.createRefreshToken(authUser!), {httpOnly: true});
+
+        // Return Access Token if login is successful
+        return {
+          accessToken: auth.createAccessToken(authUser!)
+        }
+    
+    }
+
+
+
 }

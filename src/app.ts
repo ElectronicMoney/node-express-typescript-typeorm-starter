@@ -5,10 +5,15 @@ import {createConnection, Connection} from "typeorm";
 import {apiErrorHandler} from './middlewares/ApiErrorHandler';
 import authRoutes from './routes/authRoutes'
 import userRoutes from './routes/userRoutes'
+import cookieParser from 'cookie-parser'
+
 
 const app: Application = express()
 
+// Json body Parser
 app.use(bodyParser.json());
+// Cookie Parser
+app.use(cookieParser());
 
 dotenv.config()
 dotenv.config({ path: __dirname+'../.env' });

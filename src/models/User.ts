@@ -1,4 +1,4 @@
-import {BaseEntity, Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
 import bcrypt from 'bcryptjs';
 
 
@@ -25,6 +25,12 @@ export class User extends BaseEntity {
 
     @Column({ length: 200})
     password!: string;
+
+    @CreateDateColumn()
+    createdAt!: Date;
+
+    @UpdateDateColumn()
+    updatedAt!: Date;
 
 
     // Create User
@@ -80,6 +86,12 @@ export class User extends BaseEntity {
         const deletedUser = await user!.remove();
         return deletedUser
 
+    }
+
+    // Get User By Email
+    async getUserById(userId: string) {
+        const user = await User.findOne({where: {user_id: userId} });
+        return user
     }
 
     // Get User By Email

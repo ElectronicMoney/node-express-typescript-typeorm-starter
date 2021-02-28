@@ -18,7 +18,7 @@ export class UserController {
     async getUsers(req: Request, res: Response, next: NextFunction) {
  
 
-        console.log(req.auth.user)
+        console.log(req.user)
 
         try {
             const users = await this.user.getUsers()

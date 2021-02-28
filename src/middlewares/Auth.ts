@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction} from 'express'
 import {ApiError} from '../errors/ApiError';
 import {verify} from 'jsonwebtoken';
-
+import {User} from '../models/User';
 
 
 export function auth(req:Request, res:Response, next:NextFunction) {
@@ -18,15 +18,24 @@ export function auth(req:Request, res:Response, next:NextFunction) {
     return;
   }
 
-  verify(token, secreteKey!, (err, user) => {
+  let authPayload: any
+
+  verify(token, secreteKey!, async (err, payload) => {
 
     if (err) {
       next(ApiError.forbidden('Invalid Token Or Token have Expired!'));
       return;
     }
 
+    authPayload = payload
+
+    // Get the user using the userId in the payload
+    const user = new User()
+
+    const authUser = await user.getUserById(authPayload.userId);
+
     // Store the user on request object
-    req.auth = user
+    req.user = authUser
     next()
   })
   
