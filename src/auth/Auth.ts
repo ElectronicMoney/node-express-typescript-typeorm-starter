@@ -17,13 +17,13 @@ export class Auth {
  
     //createAccessToken 
     createAccessToken(user:User) {
-        this.userId = user.user_id
+        this.userId = user.userId
         return sign({userId: this.userId}, this.accessTokenSecrete, {expiresIn: '15m'});
     }
 
     //createRefreshToken 
     createRefreshToken(user: User) {
-        this.userId = user.user_id
+        this.userId = user.userId
         return sign({userId: this.userId}, this.refreshTokenSecrete, {expiresIn: '7d'});
     }
     

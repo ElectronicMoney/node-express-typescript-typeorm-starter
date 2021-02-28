@@ -19,17 +19,17 @@ userRoutes.get('/', auth, async (req: Request, res: Response, next: NextFunction
 });
 
 // Get All Users Route
-userRoutes.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
+userRoutes.put('/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     res.send(await userController.updateUser(req, res, next))
 });
 
 // Get All Users Route
-userRoutes.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+userRoutes.get('/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     res.send(await userController.getUser(req, res, next))
 });
 
 // Get All Users Route
-userRoutes.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+userRoutes.delete('/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     res.status(204).send(await userController.deleteUser(req, res, next))
 });
 

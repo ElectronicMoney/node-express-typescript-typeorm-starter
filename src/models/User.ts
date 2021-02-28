@@ -9,7 +9,7 @@ export class User extends BaseEntity {
     id!: number;
     
     @Column({ length: 64, unique: true })
-    user_id!: string;
+    userId!: string;
     
     @Column({ length: 100})
     firstName!: string;
@@ -38,7 +38,7 @@ export class User extends BaseEntity {
         // Create the instance of a User
         const user = new User()
 
-        user.user_id   = userPaylaod.userId;
+        user.userId   = userPaylaod.userId;
         user.firstName = userPaylaod.firstName;
         user.lastName  = userPaylaod.lastName;
         user.email     = userPaylaod.email;
@@ -59,7 +59,7 @@ export class User extends BaseEntity {
     // get A User
     async getUser(userId: string): Promise<User> {
 
-        const user = await User.findOne({where: {user_id: userId} });
+        const user = await User.findOne({where: {userId: userId} });
 
         return user!; 
     }
@@ -68,7 +68,7 @@ export class User extends BaseEntity {
     // Update A User
     async updateUser(userId: string, userPayload: any): Promise<User> {
 
-        const user = await User.findOne({where: {user_id: userId} });
+        const user = await User.findOne({where: {userId: userId} });
 
         user!.firstName = userPayload.firstName
         user!.lastName  = userPayload.lastName
@@ -81,7 +81,7 @@ export class User extends BaseEntity {
     // Delete A User
     async deleteUser (userId: string): Promise<User> {
 
-        const user = await User.findOne({where: {user_id: userId} });
+        const user = await User.findOne({where: {userId: userId} });
 
         const deletedUser = await user!.remove();
         return deletedUser
@@ -90,7 +90,7 @@ export class User extends BaseEntity {
 
     // Get User By Email
     async getUserById(userId: string) {
-        const user = await User.findOne({where: {user_id: userId} });
+        const user = await User.findOne({where: {userId: userId} });
         return user
     }
 
