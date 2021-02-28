@@ -1,5 +1,9 @@
 import {User} from '../models/User';
 import {sign} from 'jsonwebtoken';
+import {
+    ACCESS_TOKEN_SECRETE,
+    REFRESH_TOKEN_SECRETE
+} from '../config'
 
 
 export class Auth { 
@@ -10,8 +14,8 @@ export class Auth {
   
     //constructor 
     constructor() { 
-       this.accessTokenSecrete  = process.env.ACCESS_TOKEN_SECRETE!;
-       this.refreshTokenSecrete = process.env.REFRESH_TOKEN_SECRETE!;
+       this.accessTokenSecrete  = ACCESS_TOKEN_SECRETE!;
+       this.refreshTokenSecrete = REFRESH_TOKEN_SECRETE!;
        this.userId = ''
     }  
  

@@ -1,5 +1,15 @@
-import {BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import {
+    BaseEntity, 
+    Entity, 
+    PrimaryGeneratedColumn, 
+    Column, 
+    CreateDateColumn, 
+    UpdateDateColumn, 
+    OneToMany
+} from "typeorm";
+
 import bcrypt from 'bcryptjs';
+import { Role } from "./Role";
 
 
 @Entity({'name': 'users'})
@@ -31,6 +41,9 @@ export class User extends BaseEntity {
 
     @UpdateDateColumn()
     updatedAt!: Date;
+
+    @OneToMany(() => Role, role => role.user)
+    roles!: Role[];
 
 
     // Create User
@@ -111,6 +124,5 @@ export class User extends BaseEntity {
         const user = await User.findOne({where: {email: email} });
         return user ? true : false
     }
-    
 
 }

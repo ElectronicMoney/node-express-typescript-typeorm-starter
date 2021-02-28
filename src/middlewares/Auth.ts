@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction} from 'express'
+import { ACCESS_TOKEN_SECRETE } from '../config'
 import {ApiError} from '../errors/ApiError';
 import {verify} from 'jsonwebtoken';
 import {User} from '../models/User';
@@ -7,7 +8,7 @@ import {User} from '../models/User';
 export function auth(req:Request, res:Response, next:NextFunction) {
 
   // secreteKey
-  const secreteKey = process.env.ACCESS_TOKEN_SECRETE
+  const secreteKey = ACCESS_TOKEN_SECRETE
 
   const authHeader = req.headers['authorization']
 
