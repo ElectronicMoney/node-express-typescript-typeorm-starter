@@ -53,14 +53,17 @@ export class AuthController {
      // refreshToken 
      async refreshToken(req: Request, res: Response, next: NextFunction) {
 
-
         let authPayload: any
-
         // secreteKey
         const refreshTokenSecrete = process.env.REFRESH_TOKEN_SECRETE
 
         const refreshToken = req.cookies.jid
-        // return refreshToken
+        
+        // Check if we have refreshToken in the cookie
+        if (!refreshToken) {
+          next(ApiError.unauthorized('Unauthroized: Please login to continue!'));
+          return;
+        }
 
         verify(refreshToken, refreshTokenSecrete!, (err: any, payload: any) => {
           // Asign the payload
@@ -88,6 +91,12 @@ export class AuthController {
     
     }
 
+    // Logout
+    logout(req: Request, res: Response, next: NextFunction)  {
+      // Delete the refresh token in the httpOnly cookie
+      res.clearCookie("jid");
+      return null
 
+    }
 
 }

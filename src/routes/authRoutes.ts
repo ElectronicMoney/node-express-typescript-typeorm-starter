@@ -16,6 +16,12 @@ authRoutes.post('/refresh/token', async (req: Request, res: Response, next: Next
     res.send(await authController.refreshToken(req, res, next))
 });
 
+// Create User Route
+authRoutes.delete('/logout', (req: Request, res: Response, next: NextFunction) => {
+    res.status(204).send(authController.logout(req, res, next))
+});
+
+
 
 export default authRoutes
 
