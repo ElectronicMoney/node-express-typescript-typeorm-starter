@@ -5,11 +5,13 @@ import {
     Column, 
     CreateDateColumn, 
     UpdateDateColumn, 
-    OneToMany
+    OneToOne,
+    JoinColumn
 } from "typeorm";
 
 import bcrypt from 'bcryptjs';
-import { Role } from "./Role";
+import { Profile } from "./Profile";
+import { ROLE } from '../constants';
 
 
 @Entity({'name': 'users'})
@@ -36,14 +38,20 @@ export class User extends BaseEntity {
     @Column({ length: 200})
     password!: string;
 
+    @Column({default: false})
+    isAdmin!: boolean;
+
     @CreateDateColumn()
     createdAt!: Date;
 
     @UpdateDateColumn()
     updatedAt!: Date;
 
-    @OneToMany(() => Role, role => role.user)
-    roles!: Role[];
+    @OneToOne(() => Profile, profile => profile.user)
+    @JoinColumn()
+    profile!: Profile;
+
+
 
 
     // Create User

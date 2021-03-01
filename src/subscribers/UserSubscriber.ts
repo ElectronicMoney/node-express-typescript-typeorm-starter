@@ -3,7 +3,7 @@ import {
     EventSubscriber, 
     InsertEvent 
 } from "typeorm";
-import { Role } from "../models/Role";
+import { Profile } from "../models/Profile";
 import { v4 as uuidv4 } from 'uuid';
 
 import { User } from "../models/User";
@@ -24,14 +24,15 @@ export class UserSubscriber implements EntitySubscriberInterface<User> {
      * Called after user insertion.
      */
     afterInsert(event: InsertEvent<User>) {
-        // Create Role for the user
-        const role = new Role()
+        // Create Profile for the user
+        const profile = new Profile()
 
-        const rolePayload = {
-            roleId: uuidv4(),
+        const profilePayload = {
+            profileId: uuidv4(),
+            name: `${event.entity.firstName} ${event.entity.lastName}`,
             user: event.entity
         }
-        role.createRole(rolePayload)
+        profile.createProfile(profilePayload)
     }
 
 }

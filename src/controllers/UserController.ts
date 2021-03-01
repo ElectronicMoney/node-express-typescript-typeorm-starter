@@ -3,6 +3,7 @@ import {User } from '../models/User';
 import { v4 as uuidv4 } from 'uuid';
 import {ApiError} from '../errors/ApiError'
 import { auth } from '../middlewares/Auth';
+import { Profile } from '../models/Profile';
 
 
 export class UserController {
@@ -37,6 +38,8 @@ export class UserController {
 
     // Get User
     async getUser(req: Request, res: Response, next: NextFunction) {
+
+        console.log(req.user.isAdmin)
 
         try {
             const user  = await this.user.getUser(req.params.id)
