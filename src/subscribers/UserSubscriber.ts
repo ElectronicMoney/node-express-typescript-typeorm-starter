@@ -3,6 +3,8 @@ import {
     EventSubscriber, 
     InsertEvent 
 } from "typeorm";
+import { Role } from "../models/Role";
+import { v4 as uuidv4 } from 'uuid';
 
 import { User } from "../models/User";
 
@@ -21,8 +23,15 @@ export class UserSubscriber implements EntitySubscriberInterface<User> {
     /**
      * Called after user insertion.
      */
-    async afterInsert(event: InsertEvent<User>) {
-        console.log(`AFTER USER INSERTED: `, event.entity);
+    afterInsert(event: InsertEvent<User>) {
+        // Create Role for the user
+        const role = new Role()
+
+        const rolePayload = {
+            roleId: uuidv4(),
+            user: event.entity
+        }
+        role.createRole(rolePayload)
     }
 
 }

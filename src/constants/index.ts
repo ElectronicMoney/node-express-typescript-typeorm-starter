@@ -1,6 +1,7 @@
 // The Roles depends on the application requirements
 export const ROLE = {
-    administrator: "Administrator",
-    basic: "Basic",
-    guest: "Guest",
+    ADMIN: "Administrator",
+    CUSTOMER: "Customer",
+    SUBSCRIBER: "Subscriber",
+    GUEST: "Guest"
 }

@@ -7,7 +7,7 @@ import {
     UpdateDateColumn, 
     ManyToOne
 } from "typeorm";
-
+import { ROLE } from '../constants';
 import {User} from './User';
 
 
@@ -20,7 +20,7 @@ export class Role extends BaseEntity {
     @Column({ length: 64, unique: true })
     roleId!: string;
     
-    @Column({ length: 100, default: "Basic"})
+    @Column({ length: 100, default: ROLE.CUSTOMER})
     name!: string;
 
     @CreateDateColumn()
