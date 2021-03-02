@@ -2,7 +2,6 @@ import {Request, Response, NextFunction} from 'express'
 import {User } from '../models/User';
 import { v4 as uuidv4 } from 'uuid';
 import {ApiError} from '../errors/ApiError'
-import { auth } from '../middlewares/Auth';
 import { Profile } from '../models/Profile';
 
 
@@ -137,6 +136,19 @@ export class UserController {
             await this.user.deleteUser(req.params.id)
             // return null
             return null
+
+        } catch(err){
+            next(ApiError.internalServer(err.message));
+            return
+        }
+    }
+
+
+    // Upload Profile Picture
+    async uploadProfilePhoto(req: Request, res: Response, next: NextFunction) {
+        try {
+
+           
 
         } catch(err){
             next(ApiError.internalServer(err.message));
