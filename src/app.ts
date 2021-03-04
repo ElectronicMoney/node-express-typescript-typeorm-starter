@@ -19,6 +19,8 @@ app.use(bodyParser.json());
 // Cookie Parser
 app.use(cookieParser());
 
+// Serve my static files
+app.use('/static', express.static(__dirname + '/static'));
 
 export const startServer = async () => {
     // Create connection

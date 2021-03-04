@@ -5,6 +5,7 @@ import {ApiError} from '../errors/ApiError'
 import { Profile } from '../models/Profile';
 
 
+
 export class UserController {
     // Declear the properies here
     user: User;
@@ -16,6 +17,12 @@ export class UserController {
     
     // Get All Users
     async getUsers(req: Request, res: Response, next: NextFunction) {
+
+        // const user = await User.find({ where: {userId: req.user.userId}, relations: ["profile"] });
+
+        // return user[0].profile;
+
+        
 
         try {
             const users = await this.user.getUsers()
@@ -147,8 +154,16 @@ export class UserController {
     // Upload Profile Picture
     async uploadProfilePhoto(req: Request, res: Response, next: NextFunction) {
         try {
+             // req.file is the `avatar` file
+            // req.body will hold the text fields, if there were any
 
-           
+            console.log(req.file)
+            console.log(req.body.post)
+
+            return {
+                fileName: req.file.filename
+            }
+
 
         } catch(err){
             next(ApiError.internalServer(err.message));
