@@ -154,9 +154,8 @@ export class UserController {
     async uploadProfilePhoto(req: Request, res: Response, next: NextFunction) {
         try {
 
-            const user = await User.find({ where: {userId: req.user.userId}, relations: ["profile"] });
-
-            const profile =  user[0].profile;
+            // Get profile
+            const profile = await req.user.getProfile()
 
              // req.file is the `avatar` file
             // req.body will hold the text fields, if there were any

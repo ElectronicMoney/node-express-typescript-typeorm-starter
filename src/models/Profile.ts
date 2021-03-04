@@ -54,4 +54,10 @@ export class Profile extends BaseEntity {
         return newProfile; 
     }
 
+    // Get User
+    async getUser() {
+        const profile = await Profile.find({ where: {profileId: this.profileId}, relations: ["user"] });
+        return profile[0].user;
+    }
+
 }
