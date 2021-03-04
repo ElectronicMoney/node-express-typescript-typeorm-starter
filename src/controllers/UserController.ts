@@ -2,8 +2,7 @@ import {Request, Response, NextFunction} from 'express'
 import {User } from '../models/User';
 import { v4 as uuidv4 } from 'uuid';
 import {ApiError} from '../errors/ApiError'
-import { Profile } from '../models/Profile';
-
+import {API_URL} from '../config';
 
 
 export class UserController {
@@ -154,16 +153,21 @@ export class UserController {
     // Upload Profile Picture
     async uploadProfilePhoto(req: Request, res: Response, next: NextFunction) {
         try {
+
+            const user = await User.find({ where: {userId: req.user.userId}, relations: ["profile"] });
+
+            const profile =  user[0].profile;
+
              // req.file is the `avatar` file
             // req.body will hold the text fields, if there were any
 
-            console.log(req.file)
-            console.log(req.body.post)
+            profile.avatarUrl = `${API_URL}/static/images/profiles/${req.file.filename}`;
 
-            return {
-                fileName: req.file.filename
-            }
+            // Save the profile
+            profile.save()
 
+            // returnthe profile
+            return profile
 
         } catch(err){
             next(ApiError.internalServer(err.message));
