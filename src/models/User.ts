@@ -49,8 +49,7 @@ export class User extends BaseEntity {
 
     @OneToOne(() => Profile, profile => profile.user)
     @JoinColumn()
-    profile!: Profile;
-
+    profile!: Promise<Profile>;
 
 
 
@@ -131,12 +130,6 @@ export class User extends BaseEntity {
     async emailExist(email: string) {
         const user = await User.findOne({where: {email: email} });
         return user ? true : false
-    }
-
-    // Get profile
-    async getProfile() {
-        const user = await User.find({ where: {userId: this.userId}, relations: ["profile"] });
-        return user[0].profile;
     }
 
 }

@@ -36,7 +36,7 @@ export class Profile extends BaseEntity {
         () => User, user => user.profile,
         {onUpdate: 'CASCADE', onDelete: "CASCADE"}
     )
-    user!: User;
+    user!: Promise<User>;
 
 
     // Create Profile
@@ -52,12 +52,6 @@ export class Profile extends BaseEntity {
         const newProfile = await profile.save();
 
         return newProfile; 
-    }
-
-    // Get User
-    async getUser() {
-        const profile = await Profile.find({ where: {profileId: this.profileId}, relations: ["user"] });
-        return profile[0].user;
     }
 
 }

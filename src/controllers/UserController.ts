@@ -16,13 +16,7 @@ export class UserController {
     
     // Get All Users
     async getUsers(req: Request, res: Response, next: NextFunction) {
-
-        // const user = await User.find({ where: {userId: req.user.userId}, relations: ["profile"] });
-
-        // return user[0].profile;
-
         
-
         try {
             const users = await this.user.getUsers()
 
@@ -43,8 +37,6 @@ export class UserController {
 
     // Get User
     async getUser(req: Request, res: Response, next: NextFunction) {
-
-        console.log(req.user.isAdmin)
 
         try {
             const user  = await this.user.getUser(req.params.id)
@@ -155,9 +147,9 @@ export class UserController {
         try {
 
             // Get profile
-            const profile = await req.user.getProfile()
+            const profile = await req.user.profile
 
-             // req.file is the `avatar` file
+            // req.file is the `avatar` file
             // req.body will hold the text fields, if there were any
 
             profile.avatarUrl = `${API_URL}/static/images/profiles/${req.file.filename}`;
