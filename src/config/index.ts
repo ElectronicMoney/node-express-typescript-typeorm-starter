@@ -3,6 +3,11 @@ import * as dotenv from 'dotenv';
 dotenv.config()
 dotenv.config({ path: __dirname+'../.env' });
 
+// APP_URL
+export const APP_URL = process.env.APP_URL;
+// API_URL
+export const API_URL = process.env.API_URL;
+
 // API PORT
 export const PORT = process.env.PORT;
 // # API Version

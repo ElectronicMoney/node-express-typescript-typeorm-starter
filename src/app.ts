@@ -1,10 +1,13 @@
 import express, {Application } from 'express'
 import {
     PORT,
+    APP_URL,
     API_VERSION
  } from '../src/config'
 
 import bodyParser from 'body-parser';
+import cors from 'cors';
+
 import {createConnection, Connection} from "typeorm";
 import {apiErrorHandler} from './middlewares/ApiErrorHandler';
 import authRoutes from './routes/authRoutes'
@@ -13,6 +16,24 @@ import cookieParser from 'cookie-parser'
 
 
 const app: Application = express()
+
+//options for cors midddleware
+const options: cors.CorsOptions = {
+    allowedHeaders: [
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+      'X-Access-Token'
+    ],
+    credentials: true,
+    methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+    origin: APP_URL,
+    preflightContinue: false,
+  };
+  
+  //use cors middleware
+  app.use(cors(options));
 
 // Json body Parser
 app.use(bodyParser.json());
