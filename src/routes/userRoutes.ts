@@ -6,6 +6,8 @@ import multer from 'multer'
 import path from 'path'
 import { v4 as uuidv4 } from 'uuid';
 import {checkFileExtention} from '../utils/helpers';
+import {UserValidation} from '../validations/UserValidation';
+
 
 // Create the Instance of UserController
 const userController = new UserController()
@@ -37,7 +39,7 @@ const upload = multer({
 
 
 // Create User Route
-userRoutes.post('/', async (req: Request, res: Response, next: NextFunction) => {
+userRoutes.post('/', UserValidation, async (req: Request, res: Response, next: NextFunction) => {
     res.status(201).send(await userController.createUser(req, res, next))
 });
 

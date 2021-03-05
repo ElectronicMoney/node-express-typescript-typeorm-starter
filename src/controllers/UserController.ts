@@ -3,6 +3,7 @@ import {User } from '../models/User';
 import { v4 as uuidv4 } from 'uuid';
 import {ApiError} from '../errors/ApiError'
 import {API_URL} from '../config';
+import { validateRequestPayload } from '../validations';
 
 
 export class UserController {
@@ -19,6 +20,13 @@ export class UserController {
     // Create User
     async createUser (req: Request, res: Response, next: NextFunction) {
         try {
+            // Call the validation output here
+            const validateRequest = validateRequestPayload(req, res)
+            // Check if we have any errors
+            if(validateRequest!.hasErrors) {
+                return validateRequest!.errorBody
+            }
+
             const userPayload = {
                 userId:    uuidv4(),
                 firstName: req.body.firstName,
@@ -26,21 +34,6 @@ export class UserController {
                 email:     req.body.email,
                 username:  req.body.username,
                 password:  req.body.password
-            }
-
-            // Check if username exist
-            if (await this.user.usernameExist(userPayload.username)){
-
-                next(ApiError.conflict('The Username Already exists; Please choose another username!'));
-                return;
-            }
-
-            // Check if Email exist
-            if (await this.user.emailExist(userPayload.email)){
-
-                next(ApiError.conflict('Email Conflict: The Email Already exists; Please choose another email!'));
-                return;
-            
             }
 
             const user = await this.user.createUser(userPayload) 

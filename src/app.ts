@@ -3,7 +3,7 @@ import {
     PORT,
     APP_URL,
     API_VERSION
- } from '../src/config'
+ } from './config'
 
 import bodyParser from 'body-parser';
 import cors from 'cors';

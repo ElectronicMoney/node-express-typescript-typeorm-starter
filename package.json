@@ -1,7 +1,7 @@
 {
   "name": "node-typescript-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Node Typescript and TypeOrm Starter Kit",
   "main": "index.js",
   "scripts": {
     "start": "node dist/app.js",
@@ -9,7 +9,7 @@
     "build": "tsc -p ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Emeka Augustine",
   "license": "MIT",
   "dependencies": {
     "add": "^2.0.6",
@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-validator": "^6.10.0",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",

@@ -7,7 +7,6 @@ import {
     UpdateDateColumn, 
     OneToOne,
     JoinColumn,
-    SimpleConsoleLogger
 } from "typeorm";
 
 import bcrypt from 'bcryptjs';
