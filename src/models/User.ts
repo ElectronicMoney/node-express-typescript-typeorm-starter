@@ -6,7 +6,8 @@ import {
     CreateDateColumn, 
     UpdateDateColumn, 
     OneToOne,
-    JoinColumn
+    JoinColumn,
+    SimpleConsoleLogger
 } from "typeorm";
 
 import bcrypt from 'bcryptjs';
@@ -38,8 +39,8 @@ export class User extends BaseEntity {
     @Column({ length: 200})
     password!: string;
 
-    @Column({default: false})
-    isAdmin!: boolean;
+    @Column({ default: ROLE.SUBSCRIBER})
+    role!: string;
 
     @CreateDateColumn()
     createdAt!: Date;
@@ -50,7 +51,6 @@ export class User extends BaseEntity {
     @OneToOne(() => Profile, profile => profile.user)
     @JoinColumn()
     profile!: Promise<Profile>;
-
 
 
     // Create User
@@ -130,6 +130,32 @@ export class User extends BaseEntity {
     async emailExist(email: string) {
         const user = await User.findOne({where: {email: email} });
         return user ? true : false
+    }
+
+    // Check if User Role is Administrator
+    async isAdmin() {
+       return  await this.role === ROLE.ADMIN ?  true: false;
+    }
+
+
+    // Check if User Role is Editor
+    async isEditor() {
+        return  await this.role === ROLE.EDITOR ?  true: false;
+    }
+
+    // Check if User Role is Moderator
+    async isModerator() {
+        return  await this.role === ROLE.MODERATOR ?  true: false;
+    }
+
+    // Check if User Role is Subscriber
+    async isSubscriber() {
+        return  await this.role === ROLE.SUBSCRIBER ?  true: false;
+    }
+
+    // Check if User Role is Guest
+    async isGuest() {
+        return  await this.role === ROLE.GUEST ?  true: false;
     }
 
 }

@@ -7,7 +7,6 @@ import {
     UpdateDateColumn, 
     OneToOne
 } from "typeorm";
-import { ROLE } from '../constants';
 import {User} from './User';
 
 
@@ -20,7 +19,7 @@ export class Profile extends BaseEntity {
     @Column({ length: 64, unique: true })
     profileId!: string;
     
-    @Column({ length: 200, default: ROLE.CUSTOMER})
+    @Column({ length: 200})
     name!: string;
 
     @Column({ default:'avatar.png'})
