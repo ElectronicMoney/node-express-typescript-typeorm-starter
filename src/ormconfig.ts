@@ -7,7 +7,7 @@ import {
    DATABASE_NAME,
    DATABASE_USERNAME,
    DATABASE_PASSWORD
-} from './src/config'
+} from './config'
 
 export default {
     type: DATABASE_TYPE,
@@ -19,17 +19,17 @@ export default {
     synchronize: true,
     logging: true,
     entities: [
-       "src/models/**/*.ts"
+       "models/**/*.ts"
     ],
     migrations: [
-       "src/migration/**/*.ts"
+       "migration/**/*.ts"
     ],
     subscribers: [
-       "src/subscribers/**/*.ts"
+       "subscribers/**/*.ts"
     ],
     cli: {
-       entitiesDir: "src/models",
-       migrationsDir: "src/migration",
-       subscribersDir: "src/subscribers"
+       entitiesDir: "models",
+       migrationsDir: "migration",
+       subscribersDir: "subscribers"
     }
  } as ConnectionOptions;

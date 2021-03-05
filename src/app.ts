@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import {createConnection, Connection} from "typeorm";
+import ConnectionOptions from './ormconfig';
 import {apiErrorHandler} from './middlewares/ApiErrorHandler';
 import authRoutes from './routes/authRoutes'
 import userRoutes from './routes/userRoutes'
@@ -45,7 +46,7 @@ app.use('/static', express.static(__dirname + '/static'));
 
 export const startServer = async () => {
     // Create connection
-    const connection: Connection = await createConnection();
+    const connection: Connection = await createConnection(ConnectionOptions);
 
     // auth routes
     app.use(`/${API_VERSION}/auth`, authRoutes);
