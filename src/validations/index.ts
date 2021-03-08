@@ -33,6 +33,7 @@ export const validateRequestPayload = (req: Request, res: Response) => {
                     errors: validationErrors
                }
            }
+       } else {
+           return { hasErrors }
        }
-    
 }

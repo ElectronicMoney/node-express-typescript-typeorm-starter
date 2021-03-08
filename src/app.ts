@@ -1,4 +1,5 @@
 import express, {Application } from 'express'
+import "reflect-metadata";
 import {
     PORT,
     APP_URL,
@@ -33,8 +34,8 @@ const options: cors.CorsOptions = {
     preflightContinue: false,
   };
   
-  //use cors middleware
-  app.use(cors(options));
+//use cors middleware
+app.use(cors(options));
 
 // Json body Parser
 app.use(bodyParser.json());

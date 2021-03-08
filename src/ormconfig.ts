@@ -18,18 +18,19 @@ export default {
     database: DATABASE_NAME,
     synchronize: true,
     logging: true,
+   //  migrationsRun: true,
     entities: [
-       "models/**/*.ts"
+      `${__dirname}/models/*{.ts,.js}`
     ],
     migrations: [
-       "migration/**/*.ts"
+       `${__dirname}/migrations/*{.ts,.js}`
     ],
     subscribers: [
-       "subscribers/**/*.ts"
+       `${__dirname}/subscribers/*{.ts,.js}`
     ],
     cli: {
-       entitiesDir: "models",
-       migrationsDir: "migration",
-       subscribersDir: "subscribers"
+       entitiesDir: "src/models",
+       migrationsDir: "src/migrations",
+       subscribersDir: "src/subscribers"
     }
  } as ConnectionOptions;
